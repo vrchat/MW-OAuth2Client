@@ -92,17 +92,27 @@ class SpecialOAuth2Client extends SpecialPage {
 	}
 
 	private function _handleCallback(){
+		global $wgRequest;
+
 		try {
+			$storedState = $wgRequest->getSession()->get('oauth2state');
+			// Enforce the `state` parameter to prevent clickjacking/CSRF
+			if(isset($storedState) && $storedState != $_GET['state']) {
+				if(isset($_GET['state'])) {
+					throw new UnexpectedValueException("State parameter of callback does not match original state");
+				} else {
+					throw new UnexpectedValueException("Required state parameter missing");
+				}
+			}
 
 			// Try to get an access token using the authorization code grant.
 			$accessToken = $this->_provider->getAccessToken('authorization_code', [
 				'code' => $_GET['code']
 			]);
 		} catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
-
-			// Failed to get the access token or user details.
+			exit($e->getMessage()); // Failed to get the access token or user details.
+		} catch (UnexpectedValueException $e) {
 			exit($e->getMessage());
-
 		}
 
 		$resourceOwner = $this->_provider->getResourceOwner($accessToken);
