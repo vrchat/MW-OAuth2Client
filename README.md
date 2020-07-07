@@ -78,6 +78,23 @@ $wgOAuth2Client['configuration']['service_login_link_text'] = 'Login with StarMa
 
 ```
 
+Optional Authorization Callback
+
+Provide a callback and error message in the configuration that evaluates a conditional based upon the result of some business logic provided by the authorization endpoint response.
+
+```
+$wgOAuth2Client['configuration']['authz_callback'] = function($response) {
+  if ($response['property']) {
+    return true;
+  } else {
+    return false;
+  }
+}; // return true or false based on something from the authorization response
+$wgOAuth2Client['configuration']['authz_failure_message'] // text of error message
+```
+
+
+
 ### Popup Window
 To use a popup window to login to the external OAuth2 server, copy the JS from modal.js to the [MediaWiki:Common.js](https://www.mediawiki.org/wiki/Manual:Interface/JavaScript) page on your wiki.
 

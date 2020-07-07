@@ -150,8 +150,30 @@ class SpecialOAuth2Client extends SpecialPage {
 		return true;
 	}
 
+	/**
+	 * Optional callback settings in global $wgOAuth2Client
+	 *
+	 * Provide a callback and error message in the configuration that evaluates
+	 * a conditional based upon the result of some business logic provided by
+	 * the authorization endpoint response.
+	 * $wgOAuth2Client['configuration']['authz_callback']
+	 * $wgOAuth2Client['configuration']['authz_failure_message']
+	 */
 	protected function _userHandling( $response ) {
 		global $wgOAuth2Client, $wgAuth, $wgRequest;
+
+		if ($wgOAuth2Client['configuration']['authz_callback']($response)) {
+			$authzResult = $wgOAuth2Client['configuration']['authz_callback']($response);
+			if ($authzResult) {
+				if (isset($wgOAuth2Client['configuration']['authz_failure_message'])) {
+					$callback_failure_message = $wgOAuth2Client['configuration']['authz_failure_message'];
+				} else {
+					$callback_failure_message = 'Not authorized';
+				}
+				throw new MWException($callback_failure_message);
+				die();
+			}
+		}
 
 		$username = JsonHelper::extractValue($response, $wgOAuth2Client['configuration']['username']);
 		$email =  JsonHelper::extractValue($response, $wgOAuth2Client['configuration']['email']);
