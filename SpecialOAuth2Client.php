@@ -162,17 +162,14 @@ class SpecialOAuth2Client extends SpecialPage {
 	protected function _userHandling( $response ) {
 		global $wgOAuth2Client, $wgAuth, $wgRequest;
 
-		if ($wgOAuth2Client['configuration']['authz_callback']($response)) {
-			$authzResult = $wgOAuth2Client['configuration']['authz_callback']($response);
-			if ($authzResult) {
-				if (isset($wgOAuth2Client['configuration']['authz_failure_message'])) {
-					$callback_failure_message = $wgOAuth2Client['configuration']['authz_failure_message'];
-				} else {
-					$callback_failure_message = 'Not authorized';
-				}
-				throw new MWException($callback_failure_message);
-				die();
-			}
+		if (
+			isset($wgOAuth2Client['configuration']['authz_callback'])
+			&& false === $wgOAuth2Client['configuration']['authz_callback']($response)
+		) {
+			$callback_failure_message = isset($wgOAuth2Client['configuration']['authz_failure_message'])
+				? $wgOAuth2Client['configuration']['authz_failure_message']
+				: 'Not authorized';
+			throw new MWException($callback_failure_message);
 		}
 
 		$username = JsonHelper::extractValue($response, $wgOAuth2Client['configuration']['username']);
