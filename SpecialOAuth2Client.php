@@ -142,7 +142,7 @@ class SpecialOAuth2Client extends SpecialPage {
 		$wgOut->setPagetitle( wfMessage( 'oauth2client-login-header', $service_name)->text() );
 		if ( !$wgUser->isLoggedIn() ) {
 			$wgOut->addWikiMsg( 'oauth2client-you-can-login-to-this-wiki-with-oauth2', $service_name );
-			$wgOut->addWikiMsg( 'oauth2client-login-with-oauth2', $this->getTitle( 'redirect' )->getPrefixedURL(), $service_name );
+			$wgOut->addWikiMsg( 'oauth2client-login-with-oauth2', $this->getPageTitle( 'redirect' )->getPrefixedURL(), $service_name );
 
 		} else {
 			$wgOut->addWikiMsg( 'oauth2client-youre-already-loggedin' );
