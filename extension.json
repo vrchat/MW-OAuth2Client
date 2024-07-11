@@ -1,12 +1,13 @@
 {
 	"name": "MW-OAuth2Client",
-	"version": "0.5",
+	"version": "0.5-vrchat.1",
 	"author": [
 		"[http://dekeijzer.org Joost de Keijzer]",
 		"[https://www.mediawiki.org/wiki/User:Nischayn22 Nischay Nahata]",
-		"[https://star-made.org Schine GmbH]"
+		"[https://star-made.org Schine GmbH]",
+		"[https://vrchat.com VRChat Inc.]"
 	],
-	"url": "https://www.mediawiki.org/wiki/Extension:OAuth2_Client",
+	"url": "https://github.com/vrchat/MW-OAuth2Client",
 	"descriptionmsg": "oauth2client-act-as-a-client-to-any-oauth2-server",
 	"license-name": "LGPL-3.0",
 	"type": "other",
