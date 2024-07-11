@@ -184,7 +184,7 @@ class SpecialOAuth2Client extends SpecialPage {
 			die();
 		}
 		if (isset($wgOAuth2Client['configuration']['real_name'])) {
-			$real_name = $response['user'][$wgOAuth2Client['configuration']['real_name']];
+			$real_name = JsonHelper::extractValue($response, $wgOAuth2Client['configuration']['real_name']);
 		} else {
 			$real_name = $username;
 		}
