@@ -46,6 +46,7 @@ For example, if user JSON is
 {
     "user": {
         "username": "my username",
+        "realname": "my display name",
         "email": "my email"
     }
 }
@@ -59,6 +60,17 @@ $wgOAuth2Client['configuration']['email'] = 'user.email'; // JSON path to email
 ```
 
 You can see [Json Helper Test case](./tests/phpunit/JsonHelperTest.php) for more.
+
+The user's real name will be set to the username by default.
+Depending on what you get from your backend, you may also want to configure:
+```
+$wgOAuth2Client['configuration']['real_name'] = 'realname'; // JSON path to real name
+```
+or:
+```
+$wgOAuth2Client['configuration']['first_name'] = 'first_name'; // JSON path to first name
+$wgOAuth2Client['configuration']['last_name'] = 'last_name'; // JSON path to last name
+```
 
 The **Redirect URI** for your wiki should be:
 
