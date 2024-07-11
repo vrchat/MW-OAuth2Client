@@ -184,8 +184,6 @@ class SpecialOAuth2Client extends SpecialPage {
 		}
 		if (isset($wgOAuth2Client['configuration']['real_name'])) {
 			$real_name = $response['user'][$wgOAuth2Client['configuration']['real_name']];
-		} elseif (isset($wgOAuth2Client['configuration']['first_name']) && isset($wgOAuth2Client['configuration']['last_name'])) {
-			$real_name = $response['user'][$wgOAuth2Client['configuration']['first_name']] . ' ' . $response['user'][$wgOAuth2Client['configuration']['last_name']];
 		} else {
 			$real_name = $username;
 		}
