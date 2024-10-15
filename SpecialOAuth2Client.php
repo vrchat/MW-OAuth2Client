@@ -44,6 +44,14 @@ class SpecialOAuth2Client extends SpecialPage {
 
 		require __DIR__ . '/vendors/oauth2-client/vendor/autoload.php';
 
+		$extensionJson = json_decode(file_get_contents(__DIR__ . '/extension.json'), true);
+
+		$httpClient = new \GuzzleHttp\Client([
+			'headers' => [
+				'User-Agent' => sprintf('%s/%s (+%s)', $extensionJson['name'], $extensionJson['version'], $extensionJson['url'])
+			]
+		]);
+
 		$this->_provider = new \League\OAuth2\Client\Provider\GenericProvider([
 			'clientId'                => $wgOAuth2Client['client']['id'],    // The client ID assigned to you by the provider
 			'clientSecret'            => $wgOAuth2Client['client']['secret'],   // The client password assigned to you by the provider
@@ -52,7 +60,8 @@ class SpecialOAuth2Client extends SpecialPage {
 			'urlAccessToken'          => $wgOAuth2Client['configuration']['access_token_endpoint'],
 			'urlResourceOwnerDetails' => $wgOAuth2Client['configuration']['api_endpoint'],
 			'scopes'                  => $wgOAuth2Client['configuration']['scopes']
-		]);
+		],
+		[ 'httpClient' => $httpClient ]);
 	}
 
 	// default method being called by a specialpage
