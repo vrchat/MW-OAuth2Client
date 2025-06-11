@@ -1,10 +1,11 @@
 {
 	"name": "MW-OAuth2Client",
-	"version": "0.5-vrchat.3",
+	"version": "0.5-vrchat.4",
 	"author": [
 		"[http://dekeijzer.org Joost de Keijzer]",
 		"[https://www.mediawiki.org/wiki/User:Nischayn22 Nischay Nahata]",
 		"[https://star-made.org Schine GmbH]",
+		"[https://github.com/sharchenko/MW-OAuth2Client Sergey Kharchenko]",
 		"[https://vrchat.com VRChat Inc.]"
 	],
 	"url": "https://github.com/vrchat/MW-OAuth2Client",
