@@ -194,8 +194,17 @@ class SpecialOAuth2Client extends SpecialPage {
 		} else {
 			$real_name = $username;
 		}
+
+		if (isset($wgOAuth2Client['configuration']['preferred_language'])) {
+			$preferred_language = JsonHelper::extractValue($response, $wgOAuth2Client['configuration']['preferred_language']);
+		} else {
+			$preferred_language = 'en';
+		}
+		
 		$user->setRealName($real_name);
 		$user->setEmail($email);
+		$user->setOption('language', $preferred_language);
+		
 		$user->load();
 		if ( !( $user instanceof User && $user->getId() ) ) {
 			$user->addToDatabase();
