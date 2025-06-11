@@ -18,11 +18,11 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 'This is a MediaWiki extension, and must be run from within MediaWiki.' );
 }
 class OAuth2ClientHooks {
-	public static function onPersonalUrls( array &$personal_urls, Title $title ) {
+	public static function onSkinTemplateNavigation_Universal( SkinTemplate $skinTemplate, array &$links ) {
 
 		global $wgOAuth2Client, $wgRequest;
 
-        $user = RequestContext::getMain()->getUser();
+		$user = RequestContext::getMain()->getUser();
 		if( $user->isRegistered() ) return true;
 
 
@@ -41,20 +41,21 @@ class OAuth2ClientHooks {
 		}
 
 		$inExt = ( null == $page || ('OAuth2Client' == substr( $page->getText(), 0, 12) ) || strstr($page->getText(), 'Logout') );
-		$personal_urls['anon_oauth_login'] = array(
+		$links['user-menu']['anon_oauth_login'] = array(
+			'single-id' => 'pt-oauth',
 			'text' => $service_login_link_text,
-			//'class' => ,
 			'active' => false,
+			'icon' => 'oauth',
 		);
 		if( $inExt ) {
-			$personal_urls['anon_oauth_login']['href'] = Skin::makeSpecialUrlSubpage( 'OAuth2Client', 'redirect' );
+			$links['user-menu']['anon_oauth_login']['href'] = Skin::makeSpecialUrlSubpage( 'OAuth2Client', 'redirect' );
 		} else {
 			# Due to bug 32276, if a user does not have read permissions,
 			# $this->getTitle() will just give Special:Badtitle, which is
 			# not especially useful as a returnto parameter. Use the title
 			# from the request instead, if there was one.
 			# see SkinTemplate->buildPersonalUrls()
-			$personal_urls['anon_oauth_login']['href'] = Skin::makeSpecialUrlSubpage(
+			$links['user-menu']['anon_oauth_login']['href'] = Skin::makeSpecialUrlSubpage(
 				'OAuth2Client',
 				'redirect',
 				wfArrayToCGI( array( 'returnto' => $page ) )
@@ -68,5 +69,4 @@ class OAuth2ClientHooks {
 		}
 		return true;
 	}
-
 }
